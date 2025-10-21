@@ -29,22 +29,22 @@ def demo_connection_management():
     manager = ConnectionManager()
     
     # Add connections
-    print("\n📡 Adding WebSocket connections:")
+    print("\n[EMOJI] Adding WebSocket connections:")
     manager.add_connection('conn-1', user_id=1, sid='sid-1')
     manager.add_connection('conn-2', user_id=1, sid='sid-2')
     manager.add_connection('conn-3', user_id=2, sid='sid-3')
     
-    print(f"   ✅ 3 connections added")
+    print(f"   [EMOJI] 3 connections added")
     
     # Get stats
     stats = manager.get_stats()
-    print(f"\n📊 Connection Stats:")
+    print(f"\n[EMOJI] Connection Stats:")
     print(f"   Total connections: {stats['total_connections']}")
     print(f"   Online users: {stats['online_users']}")
     
     # Check if user is online
     is_online = manager.is_user_online(1)
-    print(f"\n✅ User 1 online: {is_online}")
+    print(f"\n[EMOJI] User 1 online: {is_online}")
 
 
 def demo_connection_pool():
@@ -54,17 +54,17 @@ def demo_connection_pool():
     pool = ConnectionPool(max_connections_per_user=3)
     
     # Add connections
-    print("\n📊 Testing connection limits:")
+    print("\n[EMOJI] Testing connection limits:")
     for i in range(4):
         success = pool.add_connection(user_id=1, connection_id=f'conn-{i}')
         if success:
-            print(f"   ✅ Connection {i+1} added")
+            print(f"   [EMOJI] Connection {i+1} added")
         else:
-            print(f"   ❌ Connection {i+1} rejected (limit reached)")
+            print(f"   [EMOJI] Connection {i+1} rejected (limit reached)")
     
     # Get stats
     stats = pool.get_stats()
-    print(f"\n📊 Pool Stats:")
+    print(f"\n[EMOJI] Pool Stats:")
     print(f"   Total connections: {stats['total_connections']}")
     print(f"   Max per user: {stats['max_per_user']}")
 
@@ -82,24 +82,24 @@ def demo_room_management():
     manager = RoomManager(db_path)
     
     # Create room
-    print("\n🏠 Creating chat room:")
+    print("\n[EMOJI] Creating chat room:")
     manager.create_room('general', 'General Chat', created_by=1)
-    print("   ✅ Room 'general' created")
+    print("   [EMOJI] Room 'general' created")
     
     # Join room
-    print("\n👥 Users joining room:")
+    print("\n[EMOJI] Users joining room:")
     manager.join_room('general', user_id=1)
     manager.join_room('general', user_id=2)
     manager.join_room('general', user_id=3)
-    print("   ✅ 3 users joined")
+    print("   [EMOJI] 3 users joined")
     
     # Get room members
     members = manager.get_room_members('general')
-    print(f"\n📋 Room members: {members}")
+    print(f"\n[EMOJI] Room members: {members}")
     
     # Get room info
     info = manager.get_room_info('general')
-    print(f"\n📊 Room Info:")
+    print(f"\n[EMOJI] Room Info:")
     print(f"   Name: {info['room_name']}")
     print(f"   Members: {info['member_count']}/{info['max_members']}")
 
@@ -112,20 +112,20 @@ def demo_offline_queue():
     queue = OfflineQueue(db_path, max_messages=10)
     
     # Queue messages for offline user
-    print("\n📬 Queuing messages for offline user:")
+    print("\n[EMOJI] Queuing messages for offline user:")
     queue.add_message(user_id=99, message={'text': 'Message 1'}, sender_id=1)
     queue.add_message(user_id=99, message={'text': 'Message 2'}, sender_id=2)
     queue.add_message(user_id=99, message={'text': 'Message 3'}, sender_id=3)
     
-    print("   ✅ 3 messages queued")
+    print("   [EMOJI] 3 messages queued")
     
     # Get queue size
     size = queue.get_queue_size(user_id=99)
-    print(f"\n📊 Queue size for user 99: {size}")
+    print(f"\n[EMOJI] Queue size for user 99: {size}")
     
     # Get queued messages
     messages = queue.get_messages(user_id=99)
-    print(f"\n📨 Queued messages:")
+    print(f"\n[EMOJI] Queued messages:")
     for msg in messages:
         print(f"   - From user {msg['sender_id']}: {msg['content']['text']}")
 
@@ -138,20 +138,20 @@ def demo_connection_state():
     state = ConnectionState(db_path)
     
     # Set states
-    print("\n📊 Setting user states:")
+    print("\n[EMOJI] Setting user states:")
     state.set_state(user_id=1, state=ConnectionState.STATE_ONLINE)
     state.set_state(user_id=2, state=ConnectionState.STATE_AWAY)
     state.set_state(user_id=3, state=ConnectionState.STATE_OFFLINE)
     
-    print("   ✅ States set for 3 users")
+    print("   [EMOJI] States set for 3 users")
     
     # Get online users
     online_users = state.get_online_users()
-    print(f"\n👥 Online users: {online_users}")
+    print(f"\n[EMOJI] Online users: {online_users}")
     
     # Get all states
     all_states = state.get_all_states()
-    print(f"\n📋 All user states:")
+    print(f"\n[EMOJI] All user states:")
     for user_id, user_state in all_states.items():
         print(f"   User {user_id}: {user_state['state']}")
 
@@ -163,7 +163,7 @@ def demo_message_handler():
     handler = MessageHandler()
     
     # Process message
-    print("\n📝 Processing message:")
+    print("\n[EMOJI] Processing message:")
     raw_message = {
         'content': 'Hello, World!',
         'type': 'text',
@@ -172,7 +172,7 @@ def demo_message_handler():
     
     processed = handler.process_message(raw_message, sender_id=1)
     
-    print(f"   ✅ Message processed:")
+    print(f"   [EMOJI] Message processed:")
     print(f"      ID: {processed['id']}")
     print(f"      From: {processed['sender_id']}")
     print(f"      To: {processed['recipient_id']}")
@@ -180,7 +180,7 @@ def demo_message_handler():
     
     # Validate message
     is_valid = handler.validate_message(raw_message)
-    print(f"\n✅ Message valid: {is_valid}")
+    print(f"\n[EMOJI] Message valid: {is_valid}")
 
 
 def main():
@@ -218,7 +218,7 @@ def main():
             os.remove('demo.db')
         
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\n[EMOJI] Error: {e}")
         import traceback
         traceback.print_exc()
 

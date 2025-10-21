@@ -52,17 +52,17 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         manager.add_connection('conn-1', user_id=1, sid='sid-1')
         
         self.assertIn('conn-1', manager.connections)
-        print("   ✅ Connection added")
+        print("   [EMOJI] Connection added")
         
         # Get connection
         conn = manager.get_connection('conn-1')
         self.assertEqual(conn['user_id'], 1)
-        print(f"   ✅ Connection retrieved for user {conn['user_id']}")
+        print(f"   [EMOJI] Connection retrieved for user {conn['user_id']}")
         
         # Remove connection
         manager.remove_connection('conn-1')
         self.assertNotIn('conn-1', manager.connections)
-        print("   ✅ Connection removed")
+        print("   [EMOJI] Connection removed")
     
     # Test 2: Connection Pool
     def test_02_connection_pool(self):
@@ -78,12 +78,12 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         
         count = pool.get_user_connection_count(user_id=1)
         self.assertEqual(count, 3)
-        print(f"   ✅ 3 connections added")
+        print(f"   [EMOJI] 3 connections added")
         
         # Try to exceed limit
         success = pool.add_connection(user_id=1, connection_id='conn-4')
         self.assertFalse(success)
-        print("   ✅ 4th connection rejected (limit reached)")
+        print("   [EMOJI] 4th connection rejected (limit reached)")
     
     # Test 3: Room Creation
     def test_03_room_creation(self):
@@ -100,7 +100,7 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         
         self.assertIsNotNone(info)
         self.assertEqual(info['room_name'], 'Test Room')
-        print(f"   ✅ Room created: {info['room_name']}")
+        print(f"   [EMOJI] Room created: {info['room_name']}")
     
     # Test 4: Room Messaging
     def test_04_room_messaging(self):
@@ -120,14 +120,14 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         members = manager.get_room_members('chat-room')
         
         self.assertEqual(len(members), 2)
-        print(f"   ✅ 2 users joined room")
+        print(f"   [EMOJI] 2 users joined room")
         
         # Leave room
         manager.leave_room('chat-room', user_id=1)
         
         members = manager.get_room_members('chat-room')
         self.assertEqual(len(members), 1)
-        print(f"   ✅ User left room, {len(members)} remaining")
+        print(f"   [EMOJI] User left room, {len(members)} remaining")
     
     # Test 5: Connection State
     def test_05_connection_state(self):
@@ -140,17 +140,17 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         state.set_state(user_id=1, state=ConnectionState.STATE_ONLINE)
         state.set_state(user_id=2, state=ConnectionState.STATE_OFFLINE)
         
-        print("   ✅ States set for 2 users")
+        print("   [EMOJI] States set for 2 users")
         
         # Get state
         user1_state = state.get_state(user_id=1)
         self.assertEqual(user1_state['state'], ConnectionState.STATE_ONLINE)
-        print(f"   ✅ User 1 state: {user1_state['state']}")
+        print(f"   [EMOJI] User 1 state: {user1_state['state']}")
         
         # Get online users
         online = state.get_online_users()
         self.assertIn(1, online)
-        print(f"   ✅ Online users: {online}")
+        print(f"   [EMOJI] Online users: {online}")
     
     # Test 6: Offline Message Queue
     def test_06_offline_message_queue(self):
@@ -163,17 +163,17 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         queue.add_message(user_id=99, message={'text': 'Message 1'}, sender_id=1)
         queue.add_message(user_id=99, message={'text': 'Message 2'}, sender_id=2)
         
-        print("   ✅ 2 messages queued")
+        print("   [EMOJI] 2 messages queued")
         
         # Get queue size
         size = queue.get_queue_size(user_id=99)
         self.assertEqual(size, 2)
-        print(f"   ✅ Queue size: {size}")
+        print(f"   [EMOJI] Queue size: {size}")
         
         # Get messages
         messages = queue.get_messages(user_id=99)
         self.assertEqual(len(messages), 2)
-        print(f"   ✅ Retrieved {len(messages)} messages")
+        print(f"   [EMOJI] Retrieved {len(messages)} messages")
     
     # Test 7: Message Delivery
     def test_07_message_delivery(self):
@@ -188,7 +188,7 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         # Get undelivered
         messages = queue.get_messages(user_id=88)
         self.assertEqual(len(messages), 1)
-        print(f"   ✅ 1 undelivered message")
+        print(f"   [EMOJI] 1 undelivered message")
         
         # Mark delivered
         queue.mark_delivered(msg_id)
@@ -196,7 +196,7 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         # Should be empty now
         messages = queue.get_messages(user_id=88)
         self.assertEqual(len(messages), 0)
-        print(f"   ✅ Message marked as delivered")
+        print(f"   [EMOJI] Message marked as delivered")
     
     # Test 8: Message Store
     def test_08_message_store(self):
@@ -214,12 +214,12 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         )
         
         self.assertIsNotNone(msg_id)
-        print(f"   ✅ Message saved with ID: {msg_id}")
+        print(f"   [EMOJI] Message saved with ID: {msg_id}")
         
         # Get undelivered
         messages = store.get_undelivered_messages(user_id=2)
         self.assertGreaterEqual(len(messages), 1)
-        print(f"   ✅ Undelivered messages: {len(messages)}")
+        print(f"   [EMOJI] Undelivered messages: {len(messages)}")
     
     # Test 9: Message Handler
     def test_09_message_handler(self):
@@ -240,12 +240,12 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         self.assertIn('id', processed)
         self.assertIn('timestamp', processed)
         self.assertEqual(processed['sender_id'], 1)
-        print(f"   ✅ Message processed with ID: {processed['id']}")
+        print(f"   [EMOJI] Message processed with ID: {processed['id']}")
         
         # Validate message
         is_valid = handler.validate_message(raw_message)
         self.assertTrue(is_valid)
-        print(f"   ✅ Message validation: {is_valid}")
+        print(f"   [EMOJI] Message validation: {is_valid}")
     
     # Test 10: Room Persistence
     def test_10_room_persistence(self):
@@ -264,12 +264,12 @@ class WebSocketCommunicationTestCase(unittest.TestCase):
         user_rooms = manager.get_user_rooms(user_id=1)
         
         self.assertIn('persist-room', user_rooms)
-        print(f"   ✅ User rooms: {user_rooms}")
+        print(f"   [EMOJI] User rooms: {user_rooms}")
         
         # List all rooms
         all_rooms = manager.list_rooms()
         self.assertGreater(len(all_rooms), 0)
-        print(f"   ✅ Total rooms: {len(all_rooms)}")
+        print(f"   [EMOJI] Total rooms: {len(all_rooms)}")
 
 
 def run_tests():
@@ -295,17 +295,17 @@ def run_tests():
         print(f"Success rate: {success_rate:.1f}%")
     
     if result.failures:
-        print("\n❌ FAILURES:")
+        print("\n[EMOJI] FAILURES:")
         for test, traceback in result.failures:
             print(f"  - {test}")
     
     if result.errors:
-        print("\n💥 ERRORS:")
+        print("\n[EMOJI] ERRORS:")
         for test, traceback in result.errors:
             print(f"  - {test}")
     
     if not result.failures and not result.errors:
-        print("\n🎉 ALL TESTS PASSED! 🎉")
+        print("\n[EMOJI] ALL TESTS PASSED! [EMOJI]")
     
     print("=" * 60)
     
@@ -320,10 +320,10 @@ if __name__ == "__main__":
         success = run_tests()
         exit(0 if success else 1)
     except KeyboardInterrupt:
-        print("\n\n⚠️  Tests interrupted by user")
+        print("\n\n[EMOJI]️  Tests interrupted by user")
         exit(1)
     except Exception as e:
-        print(f"\n\n💥 Unexpected error: {e}")
+        print(f"\n\n[EMOJI] Unexpected error: {e}")
         import traceback
         traceback.print_exc()
         exit(1)
